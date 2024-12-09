@@ -1,0 +1,133 @@
+---
+title: "The New Hospital Programme demand model"
+subtitle: "A Tool for Forecasting Hospital Activity"
+title-block-banner: true
+output: html_document
+execute:
+  echo: false
+  message: false
+  warning: false
+---
+
+## What Does the NHP Model Do?
+
+The NHP demand model predicts _future hospital activity_, helping NHS trusts understand how many patients might visit their hospitals (admissions) and how long they might stay there (beddays).
+
+::: {.callout-note}
+The model predictors activity for inpatients, outpatients and A&E attendances.
+:::
+
+The model helps NHS trust:
+
+- Plan for future hospital activity with with bespoke data-driven forecasts
+- Explore a range of possible outcomes, helping prepare for uncertainty
+- Breakdown forecasts by site, activity type, age group, and specialty
+
+
+```{r multiple}
+value_boxes <- list(
+  bslib::value_box(
+    title = "Number of settings",
+    value = "95",
+    showcase = bsicons::bs_icon("gear"),
+    theme = "primary"
+  ),
+  bslib::value_box(
+    title = "Years into the future",
+    value = "20",
+    showcase = bsicons::bs_icon("graph-up"),
+    theme = "primary"
+  ),
+  bslib::value_box(
+    title = "NHS trusts using it",
+    value = "20",
+    showcase = bsicons::bs_icon("hospital"),
+    theme = "primary"
+  ),
+  bslib::value_box(
+    title = "Rows of data",
+    value = "30 million",
+    showcase = bsicons::bs_icon("journal-medical"),
+    theme = "primary",
+  )
+)
+
+bslib::layout_column_wrap(
+  width = "150px",
+  !!!value_boxes
+)
+```
+
+## How Does the NHP Model Work?
+
+### How it runs
+
+1. **Uses real data**: Based on 2019/20 hospital activity (HES data)  
+1. **Growth**: More people, living longer means more activity
+1. **User changes**: Enter expected changes for hospital activity, given as ranges
+1. **Simulations**: Runs hundreds of scenarios to explore possible futures 
+
+### Parameters
+
+- Includes demographic and non-demographic growth.
+- Some parameters are nationally set and fixed.  
+
+- **Demographic growth**: We use ONS population projections to see how the population will change. Taking into account that our _health status_ will also change.
+
+- **Non-demographic growth**: There are many other factors which might lead to hospital activity growing in future. We capture these and set this nationally.
+
+- **Mitigation**: The activity does not happen. E.g. fewer people smoking leads to fewer lung cancer treatment
+
+- **Efficiencies**: As procedures become less invasive we might expect the length of time a patient stays in hospital to decrease.
+
+```{mermaid}
+flowchart LR
+  A[Hard edge] --> B(Round edge)
+  B --> C{Decision}
+  C --> D[Result one]
+  C --> E[Result two]
+```
+
+## Key Outputs
+
+- **Principal Projection**: Average of all simulations, showing the most likely activity estimate  
+- **Variability insights**: Charts showing potential variation with prediction interval
+- **Detailed breakdowns**: Are available for hospital site, type of activity, age group, and specialty.
+
+It's also being used to look at the national picture for all of England.
+
+::: {.callout-note}
+## Learn more 
+
+For more details, explore additional resources:
+
+- `r bsicons::bs_icon("youtube")` Watch a [video](https://www.youtube.com/watch?v=vXBxDOa6tfw)
+- `r bsicons::bs_icon("book")` Explore the [documentation](https://connect.strategyunitwm.nhs.uk/nhp/project_information)
+- `r bsicons::bs_icon("chat-dots")` [Talk]() to us
+:::
+
+<!---
+
+## Key points (boxes?)
+
+A focus on _uncertainty_
+We provide a range of futures, to acknowledge the uncertainty
+
+## Detailed predictions
+
+Broken down by X X X X
+
+
+Want to change:
+
+Name of the model
+"Activity"
+"Users"
+
+Can we get a quote?
+
+Show a screenshot of results?
+--->
+
+
+

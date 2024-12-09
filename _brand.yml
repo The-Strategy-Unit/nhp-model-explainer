@@ -1,0 +1,15 @@
+color:
+  palette:
+    dark-grey: "#2c2825"
+    yellow: "#f9bf07"
+  background: white
+  foreground: dark-grey
+  primary: yellow
+
+logo: 
+  medium: logo.png
+
+typography:
+  fonts:
+    - family: Segoe UI
+      source: google
