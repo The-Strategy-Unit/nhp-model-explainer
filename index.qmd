@@ -9,125 +9,146 @@ execute:
   warning: false
 ---
 
-## What Does the NHP Model Do?
+## What is it for?
 
-The NHP demand model predicts _future hospital activity_, helping NHS trusts understand how many patients might visit their hospitals (admissions) and how long they might stay there (beddays).
+The New Hospital Programme (NHP) is building hospitals across England. To help plan for the future, [The Strategy Unit](https://www.strategyunitwm.nhs.uk/) developed a tool to predict how many people might use these hospitals and how long they’ll need care. 
 
-::: {.callout-note}
-The model predictors activity for inpatients, outpatients and A&E attendances.
-:::
+## What does it do?
 
-The model helps NHS trust:
+The model estimates:
 
-- Plan for future hospital activity with with bespoke data-driven forecasts
-- Explore a range of possible outcomes, helping prepare for uncertainty
-- Breakdown forecasts by site, activity type, age group, and specialty
+- How many people will need treatment (admissions).
+- How long patients might stay in the hospital (bed days)
 
+It looks at all types of hospital visits, like surgeries, check-ups, and emergencies, and breaks it down by things like age, sex, and treatment.
 
 ```{r multiple}
 value_boxes <- list(
   bslib::value_box(
-    title = "Number of settings",
-    value = "95",
-    showcase = bsicons::bs_icon("gear"),
-    theme = "primary"
-  ),
-  bslib::value_box(
-    title = "Years into the future",
-    value = "20",
-    showcase = bsicons::bs_icon("graph-up"),
-    theme = "primary"
-  ),
-  bslib::value_box(
-    title = "NHS trusts using it",
-    value = "20",
+    title = "NHS trusts using the model",
+    value = "27+",
     showcase = bsicons::bs_icon("hospital"),
     theme = "primary"
   ),
   bslib::value_box(
-    title = "Rows of data",
-    value = "30 million",
+    title = "Looking ahead",
+    value = "2041/42",
+    showcase = bsicons::bs_icon("graph-up"),
+    theme = "primary"
+  ),
+  bslib::value_box(
+    title = "Customisation options",
+    value = "90+ ",
+    showcase = bsicons::bs_icon("gear"),
+    theme = "primary"
+  ),
+  bslib::value_box(
+    title = "Rows of real hospital data",
+    value = "140 million",
     showcase = bsicons::bs_icon("journal-medical"),
-    theme = "primary",
+    theme = "primary"
   )
 )
 
+
 bslib::layout_column_wrap(
   width = "150px",
-  !!!value_boxes
+  !!!value_boxes[1:2]
+)
+
+```
+
+## What factors does it consider?
+
+The tool considers many things that can change how much people need hospitals in the future:
+
+### Population changes
+
+As the population grows, ages, and experiences changes in health, healthcare demand will change. We use ONS population projections and health trends to model how these factors will evolve over time.
+
+### Non-demographic growth
+
+This refers to changes in healthcare demand not related to population size, age, or gender, such as:
+
+- Advances in medical technology
+- Changes in clinical standards
+- Rising patient expectations
+
+Our experts have analysed previous trends to predict how this growth will affect the future.
+
+### Prevention 
+
+Hospitals use strategies to reduce healthcare activity, such as preventing falls in older people or shortening hospital stays. These strategies include:
+
+- Shifting care to local settings
+- Preventing health issues early
+- Improving efficiency
+
+NHS trusts tell us which of these strategies they intend to implement, and estimate how much they might reduce future activity. They provide these as a _range_, rather than a single numbner, for example a reduction of between 10% and 30% of elderly fall treatments.
+
+```{r}
+bslib::layout_column_wrap(
+  width = "150px",
+  !!!value_boxes[3:4]
 )
 ```
 
-## How Does the NHP Model Work?
 
-### How it runs
+## Many possible futures
 
-1. **Uses real data**: Based on 2019/20 hospital activity (HES data)  
-1. **Growth**: More people, living longer means more activity
-1. **User changes**: Enter expected changes for hospital activity, given as ranges
-1. **Simulations**: Runs hundreds of scenarios to explore possible futures 
+The future is uncertain. We run our model hundreds of times to generate a range of possible futures, based on the data trusts provide. 
 
-### Parameters
+```{r, eval=TRUE}
+library(ggplot2)
 
-- Includes demographic and non-demographic growth.
-- Some parameters are nationally set and fixed.  
+# Parameters
+n_rep <- 10
+baseline <- 500
+targets <- 500 + rnorm(n = n_rep, mean = 120, sd = 50)
+targets <- c(targets, mean(targets))
+steps <- 22               
+n_runs <- length(targets) 
 
-- **Demographic growth**: We use ONS population projections to see how the population will change. Taking into account that our _health status_ will also change.
+random_walk <- function(start, end, steps) {
+  increments <- (end - start) / steps + rnorm(steps, mean = 0, sd = abs(end - start) / (2 * steps))
+  cumsum(c(start, increments)) 
+}
 
-- **Non-demographic growth**: There are many other factors which might lead to hospital activity growing in future. We capture these and set this nationally.
+# Generate data for all runs
+set.seed(42) 
+random_walks <- tibble::tibble(
+  run = seq_along(targets),
+  target = targets
+) |>
+  dplyr::mutate(
+    data = purrr::map(target, \(x) tibble::tibble(
+      step = 0:steps,
+      value = random_walk(baseline, x, steps)
+    ))
+  ) |>
+  tidyr::unnest(data) 
 
-- **Mitigation**: The activity does not happen. E.g. fewer people smoking leads to fewer lung cancer treatment
-
-- **Efficiencies**: As procedures become less invasive we might expect the length of time a patient stays in hospital to decrease.
-
-```{mermaid}
-flowchart LR
-  A[Hard edge] --> B(Round edge)
-  B --> C{Decision}
-  C --> D[Result one]
-  C --> E[Result two]
+random_walks |>
+  dplyr::mutate(step = step + 2019) |>
+  ggplot(aes(x = step, y = value)) + 
+  geom_line(aes(group = run), colour = "#005EB8", linewidth = 1.8) + 
+  gghighlight::gghighlight(run == n_runs, use_direct_label = FALSE) + 
+      labs(title = "Our model provides hundreds of possible futures and the <span style=\'color:#005EB8'>**average forecast**</span>.") +
+  theme_minimal(base_size = 12) +
+  theme(axis.title = element_blank(),
+        axis.text.y = element_blank(),
+        legend.position = "none",
+        plot.title= ggtext::element_markdown(),
+        panel.grid = element_blank(),
+        panel.border = element_blank()) 
 ```
-
-## Key Outputs
-
-- **Principal Projection**: Average of all simulations, showing the most likely activity estimate  
-- **Variability insights**: Charts showing potential variation with prediction interval
-- **Detailed breakdowns**: Are available for hospital site, type of activity, age group, and specialty.
-
-It's also being used to look at the national picture for all of England.
 
 ::: {.callout-note}
 ## Learn more 
 
-For more details, explore additional resources:
+Explore additional resources:
 
 - `r bsicons::bs_icon("youtube")` Watch a [video](https://www.youtube.com/watch?v=vXBxDOa6tfw)
 - `r bsicons::bs_icon("book")` Explore the [documentation](https://connect.strategyunitwm.nhs.uk/nhp/project_information)
 - `r bsicons::bs_icon("chat-dots")` [Talk]() to us
 :::
-
-<!---
-
-## Key points (boxes?)
-
-A focus on _uncertainty_
-We provide a range of futures, to acknowledge the uncertainty
-
-## Detailed predictions
-
-Broken down by X X X X
-
-
-Want to change:
-
-Name of the model
-"Activity"
-"Users"
-
-Can we get a quote?
-
-Show a screenshot of results?
---->
-
-
-
