@@ -17,8 +17,9 @@ The New Hospital Programme (NHP) is building hospitals across England. To help p
 
 The model estimates:
 
-- How many people will need treatment (admissions).
-- How long patients might stay in the hospital (bed days)
+- How many patients will visit hospital
+- How many patients will stay overnight, and how long they need a bed
+- How many people will attend A&E
 
 It looks at all types of hospital visits, like surgeries, check-ups, and emergencies, and breaks it down by things like age, sex, and treatment.
 
@@ -60,11 +61,19 @@ bslib::layout_column_wrap(
 
 ## What factors does it consider?
 
-The tool considers many things that can change how much people need hospitals in the future:
+There are many elements that can change how much people need hospitals in the future. The main four main components that the model considers are demographic growth, non-demographic growth, unmet demand and mitigation.
 
-### Population changes
+```{mermaid}
+flowchart TD
+    B(Demographic <br> growth ⬆️) --> A(NHP demand model)
+    c(Non-demographic <br> growth ⬆️) --> A(NHP demand model)
+    D(Unmet <br>demand ⬆️) --> A(NHP demand model)
+    E(Mitigation ⬇️) --> A(NHP demand model)
+```
 
-As the population grows, ages, and experiences changes in health, healthcare demand will change. We use ONS population projections and health trends to model how these factors will evolve over time.
+### Demographic growth
+
+As the population grows and ages, healthcare demand will change. We use ONS population projections and health trends to model how these factors will evolve over time.
 
 ### Non-demographic growth
 
@@ -76,15 +85,25 @@ This refers to changes in healthcare demand not related to population size, age,
 
 Experts have analysed previous trends to predict how this growth will affect the future.
 
+### Unmet demand
+
+The model uses real hospital data as a baseline, but hospitals don’t always fully meet the nation’s needs. Some patients face long wait times, travel long distances for care, or opt for private healthcare. We adjust for this unmet demand in the model to ensure we can better address future needs.
+
 ### Mitigation
 
 Hospitals use strategies to reduce healthcare activity, such as preventing falls in older people or shortening hospital stays. These strategies include:
 
 - Shifting care out of hospitals to community settings
-- Preventing health issues early
-- Improving efficiency
+- Preventing health issues early with public health measures
+- Improving efficiency, through better healthcare and less invasive procedures 
 
-NHS trusts tell us which of these strategies they intend to implement, and estimate how much they might reduce future activity. They provide these as a _range_, rather than a single numbner, for example a reduction of between 10% and 30% of elderly fall treatments.
+Hospitals use strategies to reduce the need for care, such as preventing falls in older people or shortening hospital stays. These strategies include:
+
+- Moving care from hospitals to community settings
+- Preventing health problems early with public health initiatives
+- Shortening hospital stays with less invasive procedures and better healthcare
+
+NHS trusts tell us which of these strategies they intend to implement, and estimate how much they might reduce future activity. They provide these as a _range_, rather than a single number, for example a reduction of between 10% and 30% of treatments related to smoking.
 
 ```{r}
 bslib::layout_column_wrap(
@@ -150,5 +169,5 @@ Explore additional resources:
 
 - `r bsicons::bs_icon("youtube")` Watch a [video](https://www.youtube.com/watch?v=vXBxDOa6tfw)
 - `r bsicons::bs_icon("book")` Explore the [documentation](https://connect.strategyunitwm.nhs.uk/nhp/project_information)
-- `r bsicons::bs_icon("chat-dots")` [Talk]() to us
+- `r bsicons::bs_icon("chat-dots")` [Talk](mailto:mlcsu.su.datascience@nhs.net) to us
 :::
