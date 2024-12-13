@@ -74,13 +74,13 @@ This refers to changes in healthcare demand not related to population size, age,
 - Changes in clinical standards
 - Rising patient expectations
 
-Our experts have analysed previous trends to predict how this growth will affect the future.
+Experts have analysed previous trends to predict how this growth will affect the future.
 
-### Prevention 
+### Mitigation
 
 Hospitals use strategies to reduce healthcare activity, such as preventing falls in older people or shortening hospital stays. These strategies include:
 
-- Shifting care to local settings
+- Shifting care out of hospitals to community settings
 - Preventing health issues early
 - Improving efficiency
 
