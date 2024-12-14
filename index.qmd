@@ -65,10 +65,10 @@ There are many elements that can change how much people need hospitals in the fu
 
 ```{mermaid}
 flowchart TD
-    B(Demographic <br> growth ⬆️) --> A(NHP demand model)
-    c(Non-demographic <br> growth ⬆️) --> A(NHP demand model)
-    D(Unmet <br>demand ⬆️) --> A(NHP demand model)
-    E(Mitigation ⬇️) --> A(NHP demand model)
+    B(Demographic <br>growth) --> A(NHP demand model)
+    C(Non-demographic <br>growth) --> A
+    D(Unmet <br>demand) --> A
+    E(Mitigation) --> A
 ```
 
 ### Demographic growth
