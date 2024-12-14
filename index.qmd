@@ -91,12 +91,6 @@ The model uses real hospital data as a baseline, but hospitals don’t always fu
 
 ### Mitigation
 
-Hospitals use strategies to reduce healthcare activity, such as preventing falls in older people or shortening hospital stays. These strategies include:
-
-- Shifting care out of hospitals to community settings
-- Preventing health issues early with public health measures
-- Improving efficiency, through better healthcare and less invasive procedures 
-
 Hospitals use strategies to reduce the need for care, such as preventing falls in older people or shortening hospital stays. These strategies include:
 
 - Moving care from hospitals to community settings
