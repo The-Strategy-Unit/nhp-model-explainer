@@ -156,6 +156,10 @@ random_walks |>
         panel.border = element_blank()) 
 ```
 
+## Transparent and open
+
+We believe that knowledge and tools developed within the NHS should be made available to the wider health and care system. This is why the code underpinning the model, quality assurance and supporting documentation is open source.
+
 ::: {.callout-note}
 ## Learn more 
 
