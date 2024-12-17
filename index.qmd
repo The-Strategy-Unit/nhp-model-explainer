@@ -11,7 +11,7 @@ execute:
 
 ## What is it for?
 
-The New Hospital Programme (NHP) is building hospitals across England. To help plan for the future, [The Strategy Unit](https://www.strategyunitwm.nhs.uk/) developed a tool to predict how many people might use these hospitals and how long they’ll need care. 
+The New Hospital Programme (NHP) aims to transform healthcare, by building hospitals that meet the evolving needs of patients and communities across the country. To help plan for the future, [The Strategy Unit](https://www.strategyunitwm.nhs.uk/) developed a tool to predict how many people might use these hospitals and how long they’ll need care. 
 
 ## What does it do?
 
@@ -61,13 +61,13 @@ bslib::layout_column_wrap(
 
 ## What factors does it consider?
 
-There are many elements that can change how much people need hospitals in the future. The main four main components that the model considers are demographic growth, non-demographic growth, unmet demand and mitigation.
+There are many elements that can change how much people need hospitals in the future. The main four main components that the model considers are demographic growth, non-demographic growth, unmet needs and mitigation.
 
 ```{mermaid}
 flowchart TD
     B(Demographic <br>growth) --> A(NHP demand model)
     C(Non-demographic <br>growth) --> A
-    D(Unmet <br>demand) --> A
+    D(Unmet <br>needs) --> A
     E(Mitigation) --> A
 ```
 
@@ -85,9 +85,9 @@ This refers to changes in healthcare demand not related to population size, age,
 
 Experts have analysed previous trends to predict how this growth will affect the future.
 
-### Unmet demand
+### Unmet needs
 
-The model uses real hospital data as a baseline, but hospitals don’t always fully meet the nation’s needs. Some patients face long wait times, travel long distances for care, or opt for private healthcare. We adjust for this unmet demand in the model to ensure we can better address future needs.
+Not all healthcare needs are currently met due to long waits, travel distances, or use of private care. We adjust for this gap to better predict future requirements.
 
 ### Mitigation
 
